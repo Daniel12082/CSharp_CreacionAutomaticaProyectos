@@ -14,13 +14,16 @@ if %count% lss %num_entidades% (
     echo.>Domain\Entities\!nombre_entidad!.cs
 
     REM Crea la interfaz en Core\Interfaces
-    echo.>Domain\Interfaces\I!nombre_entidad!.cs
+    echo.>Domain\Interfaces\I!nombre_entidad!Repository.cs
 
     REM Crea el controlador en API\Controllers
     echo.>API\Controllers\!nombre_entidad!Controller.cs
 
     REM Crea el Dto en API\Dtos
     echo.>API\Dtos\!nombre_entidad!Dto.cs
+
+    REM Crea los Respositorios API/Repository
+    echo.>API\Repository\I!nombre_entidad!Repository.cs
 
     REM Agrega código al archivo recién creado en Core\Entities\!nombre_entidad!.cs
     (

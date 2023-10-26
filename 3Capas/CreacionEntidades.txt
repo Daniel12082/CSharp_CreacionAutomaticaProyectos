@@ -38,7 +38,7 @@ if %count% lss %num_entidades% (
     echo.>Core\Entities\!nombre_entidad!.cs
 
     REM Crea la interfaz en Core\Interfaces
-    echo.>Core\Interfaces\I!nombre_entidad!.cs
+    echo.>Core\Interfaces\I!nombre_entidad!IGenericRepository.cs
 
     REM Crea el controlador en API\Controllers
     echo.>API\Controllers\!nombre_entidad!Controller.cs
