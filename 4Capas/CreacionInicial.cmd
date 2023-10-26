@@ -132,6 +132,7 @@ dotnet add package itext7.pdfhtml --version 5.0.1
 dotnet add package Microsoft.EntityFrameworkCore --version 7.0.12
 cd ..
 cd Persistence
+dotnet add reference ..\Domain
 del Class1.cs
 mkdir Data
 cd Data
