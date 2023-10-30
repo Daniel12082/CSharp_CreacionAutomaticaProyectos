@@ -1,30 +1,4 @@
 @echo off
-setlocal enabledelayedexpansion
-(
-    echo using System;
-    echo using System.Collections.Generic;
-    echo using System.ComponentModel.DataAnnotations;
-    echo using System.Linq;
-    echo using System.Threading.Tasks;
-    echo using Core.Entities;
-    echo.
-    echo namespace Core.Entities
-    echo {
-    echo     public class !nombre_entidad! : BaseEntity
-    echo     {
-    echo         Task<T> GetByIdAsync(int id);
-    echo         Task<IEnumerable<T>> GetAllAsync();
-    echo         Task<(int totalRegistros, IEnumerable<T> registros)> GetAllAsync(int pageindex, int pageSize);
-    echo         IEnumerable<T> Find(Func<T, bool> predicate);
-    echo         void Add(T entity);
-    echo         void AddRange(IEnumerable<T> entities);
-    echo         void Update(T entity);
-    echo         void Delete(T entity);
-    echo         void DeleteRange(IEnumerable<T> entities);
-    echo     }
-    echo }
-) >> Core\Interfaces\IGenericRepository.cs
-
 REM Pregunta al usuario por el número de entidades
 set /p "num_entidades=Introduce el número de entidades: "
 
