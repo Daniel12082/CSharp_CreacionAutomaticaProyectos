@@ -362,47 +362,91 @@ goto :menu_principal
 cls
 echo "!ubicacion!"
 echo Creando entidades para el proyecto de 3 capas...
-REM Código de creación de entidades para el proyecto de 3 capas
-@echo off
-REM Pregunta al usuario por el número de entidades
-set /p "num_entidades=Introduce el número de entidades: "
+REM Código de creación de entidades para el proyecto de 4 capas
+REM Captura la elección del usuario
+set "eleccion=%errorlevel%"
+REM Muestra las ubicaciones predeterminadas según el idioma
+echo.
+echo Ubicaciones predeterminadas:
+echo 1. Descargas
+echo 2. Documentos
+echo 3. Escritorio
+echo 4. Ubicacion Actual
 
+REM Pregunta al usuario por la ubicación deseada
+choice /c 1234 /n /m "Elija una ubicacion predeterminada (1/2/3/4): "
+set "eleccion=%errorlevel%"
+
+if !eleccion! == 3 (
+    set "ubicacion=Desktop"
+) else if !eleccion! == 2 (
+    set "ubicacion=Documents"
+) else if !eleccion! == 1 (
+    set "ubicacion=Downloads"
+) else (
+	set "ubicacion=%cd%"
+)
+
+REM Muestra la ubicación seleccionada
+echo.
+echo Ha seleccionado "!ubicacion!" como su ubicacion predeterminada.
+if not !eleccion! == 4 (
+    set /p "ubicacion2=Introduce la nombre del proyecto(teniendo en cuenta mayusculas y minisculas): "
+)
+REM Validación si la ubicación es vacía
+if not defined ubicacion2 (
+	set "ubicacion3=!UserProfile!\!ubicacion!\"
+    echo "1"
+) else if !eleccion! == 4 (
+	set "ubicacion3=!ubicacion!"
+    echo "2"
+) else (
+    set "ubicacion3=!UserProfile!\!ubicacion!\!ubicacion2!\"
+    echo "3"
+)
+cls
+REM Pregunta al usuario por el número de entidades
+set /p "num_entidades=Introduce el numero de entidades: "
 REM Ciclo para crear las entidades
 set "count=0"
 :loop
-echo "!ubicacion!"
 if %count% lss %num_entidades% (
     set /p "nombre_entidad=Introduce el nombre de la entidad %count%: "
-    
     REM Crea la entidad en Core\Entities
-    echo.>!ubicacion!\!proyecto!\Core\Entities\!nombre_entidad!.cs
-
+    echo.>!ubicacion3!Core\Entities\!nombre_entidad!.cs
     REM Crea la interfaz en Core\Interfaces
-    echo.>!ubicacion!\!proyecto!\Core\Interfaces\I!nombre_entidad!IGenericRepository.cs
-
+    echo.>!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs
     REM Crea el controlador en API\Controllers
-    echo.>!ubicacion!\!proyecto!\API\Controllers\!nombre_entidad!Controller.cs
-
+    echo.>!ubicacion3!API\Controllers\!nombre_entidad!Controller.cs
     REM Crea el Dto en API\Dtos
-    echo.>!ubicacion!\!proyecto!\API\Dtos\!nombre_entidad!Dto.cs
-
+    echo.>!ubicacion3!API\Dtos\!nombre_entidad!Dto.cs
     REM Agrega código al archivo recién creado en Core\Entities\!nombre_entidad!.cs
-    (
-        echo using System;
-        echo using System.Collections.Generic;
-        echo using System.ComponentModel.DataAnnotations;
-        echo using System.Linq;
-        echo using System.Threading.Tasks;
-        echo.
-        echo namespace Core.Entities
-        echo {
-        echo     public class !nombre_entidad! : BaseEntity
-        echo     {
-        echo         // Aquí va tu código adicional o personalizado.
-        echo     }
-        echo }
-    ) >> !ubicacion!\!proyecto!\Core\Entities\!nombre_entidad!.cs
-
+    echo using System;>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System.Collections.Generic;>>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System.ComponentModel.DataAnnotations;>>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System.Linq;>>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System.Threading.Tasks;>>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using Core.Entities;>>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo. >>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo namespace Core.Interfaces>>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo { >>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo     public interface I!nombre_entidad!Repository:IGenericRepository^<!nombre_entidad!^> >>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo     {>>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo     }>>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo } >>"!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System;>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo using System.Collections.Generic;>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo using System.ComponentModel.DataAnnotations;>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo using System.Linq;>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo using System.Threading.Tasks;>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo. >>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo namespace Core.Entities>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo {>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo     public class !nombre_entidad! : BaseEntity>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo     {>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo         // Aquí va tu código adicional o personalizado.>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo     }>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
+    echo }>>"!ubicacion3!Core\Entities\!nombre_entidad!.cs"
     set /a "count+=1"
     goto :loop
 )
@@ -447,20 +491,17 @@ if not !eleccion! == 4 (
 REM Validación si la ubicación es vacía
 if not defined ubicacion2 (
 	set "ubicacion3=!UserProfile!\!ubicacion!\"
-    echo "1"
 ) else if !eleccion! == 4 (
 	set "ubicacion3=!ubicacion!"
-    echo "2"
 ) else (
     set "ubicacion3=!UserProfile!\!ubicacion!\!ubicacion2!\"
-    echo "3"
 )
 cls
 REM Pregunta al usuario por el número de entidades
 set /p "num_entidades=Introduce el numero de entidades: "
 REM Ciclo para crear las entidades
 set "count=0"
-:loop
+:loop2
 echo "!ubicacion3!"
 if %count% lss %num_entidades% (
     set /p "nombre_entidad=Introduce el nombre de la entidad %count%: "
@@ -473,7 +514,7 @@ if %count% lss %num_entidades% (
     REM Crea el Dto en API\Dtos
     echo.>!ubicacion3!API\Dtos\!nombre_entidad!Dto.cs
     REM Crea los Respositorios API/Repository
-    echo.>!ubicacion3!API\Repository\I!nombre_entidad!Repository.cs
+    echo.>!ubicacion3!Aplication\Repository\I!nombre_entidad!Repository.cs
     REM Agrega código al archivo recién creado en Core\Interfaces\I!nombre_entidad!Repository
     echo using System;>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
     echo using System.Collections.Generic;>>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
@@ -483,12 +524,11 @@ if %count% lss %num_entidades% (
     echo using Domain.Entities;>>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
     echo. >>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
     echo namespace Domain.Interfaces>>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo {>>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     public interface I(Entidad)Repository : IGenericRepository<(Entidad)>>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
+    echo { >>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
+    echo     public interface I!nombre_entidad!Repository:IGenericRepository^<!nombre_entidad!^> >> "!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
     echo     {>>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
     echo     }>>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo }>>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-
+    echo } >>"!ubicacion3!Domain\Interfaces\I!nombre_entidad!Repository.cs"
     echo using System;>>"!ubicacion3!Domain\Entities\!nombre_entidad!.cs"
     echo using System.Collections.Generic;>>"!ubicacion3!Domain\Entities\!nombre_entidad!.cs"
     echo using System.ComponentModel.DataAnnotations;>>"!ubicacion3!Domain\Entities\!nombre_entidad!.cs"
@@ -502,53 +542,83 @@ if %count% lss %num_entidades% (
     echo         // Aquí va tu código adicional o personalizado.>>"!ubicacion3!Domain\Entities\!nombre_entidad!.cs"
     echo     }>>"!ubicacion3!Domain\Entities\!nombre_entidad!.cs"
     echo }>>"!ubicacion3!Domain\Entities\!nombre_entidad!.cs"
+    pause
     set /a "count+=1"
-    goto :loop
+    goto :loop2
 )
 goto :menu_principal
 cls
 
 :insertar_codigo_cuatro_capas
-echo Seleccione una opción:
-echo 1. Interfaces
-echo 2. Context
-echo 3. Repository
-echo 4. Unit of Work
-echo 5. DTOs
-echo 6. Extension
-echo 7. Helpers
-echo 8. Services
-echo 9. Salir
+cls
+REM Código de creación de entidades para el proyecto de 4 capas
+REM Captura la elección del usuario
+set "eleccion=%errorlevel%"
+REM Muestra las ubicaciones predeterminadas según el idioma
+echo.
+echo Ubicaciones predeterminadas:
+echo 1. Descargas
+echo 2. Documentos
+echo 3. Escritorio
+echo 4. Ubicacion Actual
+REM Pregunta al usuario por la ubicación deseada
+choice /c 1234 /n /m "Elija una ubicacion de su proyecto: "
+set "eleccion=%errorlevel%"
 
-set /p "opcion=Ingrese el número de opcion deseada: "
-if %opcion%==1 (
-    echo Ha seleccionado Interfaces.
-    REM Lógica específica para Interfaces
-) else if %opcion%==2 (
+if !eleccion! == 3 (
+    set "ubicacion=Desktop"
+    pause
+) else if !eleccion! == 2 (
+    set "ubicacion=Documents"
+) else if !eleccion! == 1 (
+    set "ubicacion=Downloads"
+) else (
+	set "ubicacion=%cd%"
+)
+echo Seleccione una opción:
+echo 1. Context
+echo 2. Repository
+echo 3. Unit of Work
+echo 4. DTOs
+echo 5. Extension
+echo 6. Helpers
+echo 7. Services
+echo 8. Salir
+set /p "opcioncod=Ingrese el número de opción deseada: "
+echo !opcioncod!
+cls
+set /p "project=Introduce el nombre del proyecto (teniendo en cuenta mayúsculas y minúsculas):"
+pause
+if %opcioncod%==1 (
     echo Ha seleccionado Context.
-    REM Lógica específica para Context
-) else if %opcion%==3 (
+) else if %opcioncod%==2 (
     echo Ha seleccionado Repository.
+    pause
     REM Lógica específica para Repository
-) else if %opcion%==4 (
+) else if %opcioncod%==3 (
     echo Ha seleccionado Unit of Work.
     REM Lógica específica para Unit of Work
-) else if %opcion%==5 (
+) else if %opcioncod%==4 (
     echo Ha seleccionado DTOs.
     REM Lógica específica para DTOs
-) else if %opcion%==6 (
+) else if %opcioncod%==5 (
     echo Ha seleccionado Extension.
     REM Lógica específica para Extension
-) else if %opcion%==7 (
+) else if %opcioncod%==6 (
     echo Ha seleccionado Helpers.
     REM Lógica específica para Helpers
-) else if %opcion%==8 (
+) else if %opcioncod%==7 (
     echo Ha seleccionado Services.
     REM Lógica específica para Services
-) else if %opcion%==9 (
-    goto:menu_principal
+) else if %opcioncod%==8 (
+    goto :menu_principal
     exit
 ) else (
-    echo Opción no válida. Por favor, seleccione una opcion del menú.
+    echo Opción no válida. Por favor, seleccione una opción del menú.
+    pause
 )
-call:insertar_codigo
+call :insertar_codigo
+
+
+
+
