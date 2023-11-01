@@ -1,8 +1,6 @@
 cd "!ubicacion!"
 mkdir "!proyecto!"
 cd "!proyecto!"
-
-
 REM Continúa con la creación del proyecto
 dotnet new sln
 dotnet new webapi -o API
