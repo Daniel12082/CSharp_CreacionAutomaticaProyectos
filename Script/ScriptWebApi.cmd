@@ -8,6 +8,7 @@ call :ubicacion
 
 :menu_principal
 cls
+echo "!ubicacionguardada!"
 echo Menu Principal
 echo 1. Creacion de Proyecto
 echo 2. Creacion de Entidades
@@ -29,7 +30,7 @@ if "%opcion_menu%"=="1" (
 )
 
 ::----------------------------------------------------------------------------------------------------
-
+setlocal enabledelayedexpansion
 :ubicacion
 cls
 set "eleccion=%errorlevel%"
@@ -55,14 +56,18 @@ if not !eleccion! == 4 (
 )
 set /p "proyecto=Introduce el nombre de tu proyecto: "
 if not defined !ubicacion2! (
+    echo "1"
 	set "ubicacion=!UserProfile!\!ubicacion!\"
-    set "ubicacionguarda = !ubicacion!\!ubicacion2!\"
-) else if !elecion! == 4 (
+    set "ubicacionguardada=!ubicacion!!ubicacion2!\"
+) else if !eleccion! == 4 (
+    echo "2"
 	set "ubicacion=!ubicacion!"
-    set "ubicacionguarda = !ubicacion!\!ubicacion2!\"
+    set "ubicacionguardada=!ubicacion!\!ubicacion2!\"
 ) else (
+    echo "3"
     set "ubicacion=!UserProfile!\!ubicacion!\!ubicacion2!\"
-    set "ubicacionguarda = !ubicacion!\"
+    set "ubicacionguardada=!ubicacion!\"
+    
 )
 goto :menu_principal
 
@@ -102,16 +107,16 @@ if "%opcion_entidades%"=="1" (
 ) else if "%opcion_entidades%"=="3" (
     goto :menu_principal
 ) else (
-    echo Opción no válida. Intente de nuevo.
+    echo Opcion no valida. Intente de nuevo.
     goto :menu_entidades
 )
 ::--------------------------------------------------------------------------------------------------------
 
 :menu_seleccion_insertar_codigo
 cls
-echo Insertar Código
-echo 1. Insertar Código para Proyecto de 3 Capas
-echo 2. Insertar Código para Proyecto de 4 Capas
+echo Insertar Codigo
+echo 1. Insertar Codigo para Proyecto de 3 Capas
+echo 2. Insertar Codigo para Proyecto de 4 Capas
 echo 3. Atras
 set /p "opcion_codigo=Seleccione una opcion: "
 
@@ -122,7 +127,7 @@ if "%opcion_codigo%"=="1" (
 ) else if "%opcion_codigo%"=="3" (
     goto :menu_principal
 ) else (
-    echo Opción no válida. Intente de nuevo.
+    echo Opcion no valida. Intente de nuevo.
     goto :insertar_codigo
 )
 ::--------------------------------------------------------------------------------------------------------
@@ -133,36 +138,35 @@ echo Tenga en cuenta que debe tener la entidades ya creadas
 pause
 cls
 echo Automatizacion de codigo:
-echo Seleccione una opción:
+echo Seleccione una opcion:
 echo 1. Context
 echo 2. Unit of Work
-echo 3. Extension
-echo 4.MappingProfiles
-echo 5.IUnitOfWork
-echo 6.Salir
-set /p "opcioncod=Ingrese el número de opción deseada: "
+echo 3. Application Service Extension
+echo 4. MappingProfiles
+echo 5. IUnitOfWork
+echo 6. Salir
+set /p "opcioncod=Ingrese el numero de opcion deseada: "
 if %opcioncod%==1 (
-    echo Ha seleccionado Context.
-    REM Lógica específica para Context
+    call :context_tres_capas
 ) else if %opcioncod%==2 (
     echo Ha seleccionado Unit of Work.
-    REM Lógica específica para Unit of Work
+    REM Logica especifica para Unit of Work
 ) else if %opcioncod%==3 (
-    echo Ha seleccionado Extension.
-    REM Lógica específica para Extension
+    goto :ApplicationServiceExtension_tres_capas
 ) else if %opcioncod%==4 (
     echo Ha seleccionado MappingProfiles.
-    REM Lógica específica para MappingProfiles
+    REM Logica especifica para MappingProfiles
 ) else if %opcioncod%==5 (
     echo Ha seleccionado IUnitOfWork.
-    REM Lógica específica para IUnitOfWork
+    REM Logica especifica para IUnitOfWork
 ) else if %opcioncod%==6 (
     goto :menu_principal
     exit
 ) else (
-    echo Opción no válida. Por favor, seleccione una opción del menú.
+    echo Opcion no valida. Por favor, seleccione una opcion del menu.
     pause
 )
+goto :menu_insertar_codigo_tres_capas
 ::--------------------------------------------------------------------------------------------------------
 :menu_insertar_codigo_cuatro_capas
 cls
@@ -170,48 +174,52 @@ echo Tenga en cuenta que debe tener la entidades ya creadas
 pause
 cls
 echo Automatizacion de codigo:
-echo Seleccione una opción:
+echo Seleccione una opcion:
 echo 1. Context
 echo 2. Unit of Work
-echo 4. Extension
-echo 5. Helpers
-echo 6. Services
+echo 3. Application Service Extension
+echo 4. Helpers
+echo 5. Services
+echo 6. IUnitOfWork
 echo 7. Salir
-set /p "opcioncod=Ingrese el número de opción deseada: "
+set /p "opcioncod=Ingrese el numero de opcion deseada: "
 if %opcioncod%==1 (
     echo Ha seleccionado Context.
-    REM Lógica específica para Context
+    REM Logica especifica para Context
 ) else if %opcioncod%==2 (
     echo Ha seleccionado Unit of Work.
-    REM Lógica específica para Unit of Work
+    REM Logica especifica para Unit of Work
 ) else if %opcioncod%==3 (
     echo Ha seleccionado Extension.
-    REM Lógica específica para Extension
+    REM Logica especifica para Extension
 ) else if %opcioncod%==4 (
     echo Ha seleccionado Helpers.
-    REM Lógica específica para Helpers
+    REM Logica especifica para Helpers
 ) else if %opcioncod%==5 (
     echo Ha seleccionado Services.
-    REM Lógica específica para Services
+    REM Logica especifica para Services
 ) else if %opcioncod%==6 (
+    echo Ha seleccionado Services.
+    REM Logica especifica para Services
+) else if %opcioncod%==7 (
     goto :menu_principal
     exit
 ) else (
-    echo Opción no válida. Por favor, seleccione una opción del menú.
+    echo Opcion no valida. Por favor, seleccione una opcion del menu.
     pause
 )
-goto :menu_principal
+goto :menu_insertar_codigo_cuatro_capas
 
 ::--------------------------------------------------------------------------------------------------------
 
 :creacion_proyecto_tres_capas
 cls
 echo Creando proyecto de 3 capas...
-REM Crea el directorio del proyecto en la ubicación especificada
+REM Crea el directorio del proyecto en la ubicacion especificada
 cd "!ubicacion!"
 mkdir "!proyecto!"
 cd "!proyecto!"
-REM Continúa con la creación del proyecto
+REM Continua con la creacion del proyecto
 dotnet new sln
 dotnet new webapi -o API
 dotnet sln add API
@@ -287,7 +295,7 @@ echo Creando proyecto de 4 capas...
 cd "!ubicacion!"
 mkdir "!proyecto!"
 cd "!proyecto!"
-REM Continúa con la creación del proyecto
+REM Continua con la creacion del proyecto
 dotnet new sln
 dotnet new webapi -o API
 dotnet sln add API
@@ -374,7 +382,7 @@ goto :menu_principal
 
 :crecion_entidades_tres_capas
 cls
-REM Pregunta al usuario por el número de entidades
+REM Pregunta al usuario por el numero de entidades
 set /p "num_entidades=Introduce el numero de entidades: "
 REM Ciclo para crear las entidades
 set "count=0"
@@ -382,61 +390,211 @@ set "count=0"
 if %count% lss %num_entidades% (
     set /p "nombre_entidad=Introduce el nombre de la entidad %count%: "
     REM Crea la entidad en Core\Entities
-    echo.>!ubicacion3!Core\Entities\!nombre_entidad!.cs
+    echo.>!ubicacionguardada!Core\Entities\!nombre_entidad!.cs
     REM Crea la interfaz en Core\Interfaces
-    echo.>!ubicacion3!Core\Interfaces\I!nombre_entidad!Repository.cs
+    echo.>!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs
     REM Crea el controlador en API\Controllers
-    echo.>!ubicacion3!API\Controllers\!nombre_entidad!Controller.cs
+    echo.>!ubicacionguardada!API\Controllers\!nombre_entidad!Controller.cs
     REM Crea el Dto en API\Dtos
-    echo.>!ubicacion3!API\Dtos\!nombre_entidad!Dto.cs
-    REM Agrega código al archivo recién creado en Core\Interfaces\IEntidadRepositoy.cs
-    echo using System;>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.Collections.Generic;>>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.ComponentModel.DataAnnotations;>>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.Linq;>>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.Threading.Tasks;>>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using Core.Entities;>>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo. >>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo namespace Core.Interfaces>>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo { >>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     public interface I!nombre_entidad!Repository:IGenericRepository^<!nombre_entidad!^> >>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     {>>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     }>>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo } >>"!ubicacionguarda!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    REM Agrega código al archivo recién creado en Core\Entities\Entidad.cs
-    echo using System;>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo using System.Collections.Generic;>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo using System.ComponentModel.DataAnnotations;>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo using System.Linq;>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo using System.Threading.Tasks;>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo. >>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo namespace Core.Entities>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo {>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo     public class !nombre_entidad! : BaseEntity>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo     {>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo         // Aquí va tu código adicional o personalizado.>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo     }>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
-    echo }>>"!ubicacionguarda!Core\Entities\!nombre_entidad!.cs"
+    echo.>!ubicacionguardada!API\Dtos\!nombre_entidad!Dto.cs
+    REM Agrega codigo al archivo recien creado en Core\Interfaces\IEntidadRepositoy.cs
+    echo using System;>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System.Collections.Generic;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System.ComponentModel.DataAnnotations;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System.Linq;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System.Threading.Tasks;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using Core.Entities;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo. >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo namespace Core.Interfaces>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo { >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo     public interface I!nombre_entidad!Repository:IGenericRepository^<!nombre_entidad!^> >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo     {>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo     }>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo } >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    REM Agrega codigo al archivo recien creado en Core\Entities\Entidad.cs
+    echo using System;>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo using System.Collections.Generic;>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo using System.ComponentModel.DataAnnotations;>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo using System.Linq;>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo using System.Threading.Tasks;>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo. >>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo namespace Core.Entities>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo {>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo     public class !nombre_entidad! : BaseEntity>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo     {>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo         // Aqui va tu codigo adicional o personalizado.>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo     }>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+    echo }>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
     REM Agrega Codigo al archivo recien creado API\Dtos
-    echo using System; >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
-    echo using System.Collections.Generic; >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
-    echo using System.Linq;; >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
-    echo using System.Threading.Tasks; >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
-    echo using Core.Entities; >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
-    echo namespace API.Dtos; >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
-    echo     public class !nombre_entidad!Dto : GenericDto >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
-    echo     { >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
-    echo         // Aquí va tu código adicional o personalizado. >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
-    echo     } >>"!ubicacionguarda!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo using System; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo using System.Collections.Generic; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo using System.Linq;; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo using System.Threading.Tasks; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo using Core.Entities; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo namespace API.Dtos; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo     public class !nombre_entidad!Dto : GenericDto >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo     { >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo         // Aqui va tu codigo adicional o personalizado. >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+    echo     } >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
     set /a "count+=1"
     goto :loop
 )
 goto :menu_principal
 
-::----------------------------------------------------------------------------------------------------------------------------------------------
+::--------------------------------------------------------------------------------------------------------------
 
-:creacion_entidades_tres_capas
+:creacion_entidades_cuatro_capas
 
-::----------------------------------------------------------------------------------------------------------------------------------------------
+::--------------------------------------------------------------------------------------------------------------
 
+:context_tres_capas
+cls
+echo using System;> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo using System.Collections.Generic;>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo using System.Linq;>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo using System.Reflection;>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo using System.Threading.Tasks;>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo using Core.Entities;>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo using Microsoft.EntityFrameworkCore;>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo.>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo namespace Infrastructure.Data>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo {>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo     public class !proyecto!Context : DbContext>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo     {>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo         public !proyecto!Context^(DbContextOptions options^) : base^(options^)>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo         {>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo         }>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo.>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+for %%f in ("!ubicacionguardada!Core\Entities\*") do (
+    set "nombre=%%~nf"
+    if not "!nombre!"=="BaseEntity" (
+        echo         DbSet^<!nombre!^> ^!nombre^!s ^{ get; set; ^}>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+    )
+)
+echo.>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo         protected override void OnModelCreating^(ModelBuilder modelBuilder^)>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo         {>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo             base.OnModelCreating^(modelBuilder^);>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo             modelBuilder.ApplyConfigurationsFromAssembly^(Assembly.GetExecutingAssembly^(^)^);>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo         }>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo     }>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+echo }>> !ubicacionguardada!Infrastructure\Data\!proyecto!Context.cs
+goto :menu_insertar_codigo_tres_capas
+::-------------------------------------------------------------------------------------------------------------
 
+:context_cuatro_capas
+cls
+echo using System;> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo using System.Collections.Generic;>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo using System.Linq;>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo using System.Reflection;>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo using System.Threading.Tasks;>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo using Core.Entities;>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo using Microsoft.EntityFrameworkCore;>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo.>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo namespace Persistence.Data>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo {>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo     public class !proyecto!Context : DbContext>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo     {>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo         public !proyecto!Context^(DbContextOptions options^) : base^(options^)>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo         {>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo         }>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo.>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+for %%f in ("!ubicacionguardada!Core\Entities\*") do (
+    set "nombre=%%~nf"
+    if not "!nombre!"=="BaseEntity" (
+        echo         DbSet^<!nombre!^> ^!nombre^!s ^{ get; set; ^}>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+    )
+)
+echo.>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo         protected override void OnModelCreating^(ModelBuilder modelBuilder^)>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo         {>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo             base.OnModelCreating^(modelBuilder^);>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo             modelBuilder.ApplyConfigurationsFromAssembly^(Assembly.GetExecutingAssembly^(^)^);>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo         }>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo     }>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+echo }>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
+goto :menu_insertar_codigo_cuatro_capas
+::-------------------------------------------------------------------------------------------------------------
+
+:unit_of_work_tres_capas
+
+::-------------------------------------------------------------------------------------------------------------
+
+:unit_of_work_cuatro_capas
+
+::-------------------------------------------------------------------------------------------------------------
+
+:ApplicationServiceExtension_tres_capas
+cls
+echo Creando ApplicationServiceExtension
+echo using System; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo using System.Collections.Generic; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo using System.Linq; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo using System.Threading.Tasks; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo using AspNetCoreRateLimit; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo using Core.Interfaces; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo using Infrastructure.UnitOfWork; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo. >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo namespace API.Extension >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo     public static class ApplicationServiceExtension >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo     { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         public static void configureCors(this IServiceCollection services) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             services.AddCors(options =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                 options.AddPolicy( >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                     "CorsPolicy", >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                     builder =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                         builder >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                             .AllowAnyOrigin() >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                             .AllowAnyMethod() >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                             .AllowAnyHeader() >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                 ); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             }); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         public static void AddAplicationService(this IServiceCollection services) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             services.AddScoped^<IUnitOfWork, UnitOfWork^>(); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         public static void ConfigureRatelimiting(this IServiceCollection services) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             services.AddMemoryCache(); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             services.AddSingleton^<IRateLimitConfiguration, RateLimitConfiguration^>(); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             services.AddInMemoryRateLimiting(); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             services.Configure^<IpRateLimitOptions^>(options =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                 options.EnableEndpointRateLimiting = true; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                 options.StackBlockedRequests = false; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                 options.HttpStatusCode = 429; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                 options.RealIpHeader = "X-Real-IP"; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                 options.GeneralRules = new List^<RateLimitRule^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                 { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                     new RateLimitRule >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                     { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                         Endpoint = "*", >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                         Period = "10s", >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                         Limit = 2 >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                     } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo                 }; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo             }); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo     } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+pause
+cls
+echo ApplicationServiceExtension creada
+pause
+goto :menu_insertar_codigo_tres_capas
+::-------------------------------------------------------------------------------------------------------------
+
+:ApplicationServiceExtension_cuatro_capas
+
+::-------------------------------------------------------------------------------------------------------------
+
+:MappingProfiles_tres_capas
+
+::-------------------------------------------------------------------------------------------------------------
+
+:
