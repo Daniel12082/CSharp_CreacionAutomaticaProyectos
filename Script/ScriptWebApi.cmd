@@ -32,6 +32,7 @@ if "%opcion_menu%"=="1" (
 ::----------------------------------------------------------------------------------------------------
 setlocal enabledelayedexpansion
 :ubicacion
+setlocal enabledelayedexpansion
 cls
 set "eleccion=%errorlevel%"
 echo Seleccion de ubicacion:
@@ -375,17 +376,20 @@ dotnet restore
 code .
 goto :menu_principal
 
-::-------------------------------------------------------------------------------------------------------------------------------------------
+::------------------------------------------------------------------------------------------------------------------------
 
 :crecion_entidades_tres_capas
 cls
 REM Pregunta al usuario por el numero de entidades
 set /p "num_entidades=Introduce el numero de entidades: "
-REM Ciclo para crear las entidades
+pause
 set "count=0"
+pause
 :loop
 if %count% lss %num_entidades% (
+
     set /p "nombre_entidad=Introduce el nombre de la entidad %count%: "
+
     REM Crea la entidad en Core\Entities
     echo.>!ubicacionguardada!Core\Entities\!nombre_entidad!.cs
     REM Crea la interfaz en Core\Interfaces
@@ -395,7 +399,8 @@ if %count% lss %num_entidades% (
     REM Crea el Dto en API\Dtos
     echo.>!ubicacionguardada!API\Dtos\!nombre_entidad!Dto.cs
     REM Crear Repository
-    echo.>!ubicacionguardada!Infrastructure\Data\Repository\!nombre_entidad!Repository.cs
+    
+    echo.>!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs
 
     REM Agrega codigo al archivo recien creado en Core\Interfaces\IEntidadRepositoy.cs
     echo using System;>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
@@ -450,17 +455,19 @@ if %count% lss %num_entidades% (
     echo. >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
     echo namespace Infrastructure.Repository >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
     echo { >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
-    echo     public class !nombre_entidad!Repository : GenericRepository^<!nombre_entidad!^> , I!nombre_entidad! >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
+    echo     public class !nombre_entidad!Repository : GenericRepository^<!nombre_entidad!^> , I!nombre_entidad! >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
     echo     { >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
     echo         private readonly !proyecto!Context _context; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
-    echo         public !nombre_entidad!Repository(!proyecto!Context context) : base(context) >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo         public !nombre_entidad!Repository^(!proyecto!Context context^) : base^(context^) >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
     echo         { >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
     echo             _context = context; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
     echo         } >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
     echo     } >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
     echo } >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
 
-    set /a "count+=1"
+    set /a "count+=1 "
+    echo %count%
+    pause
     goto :loop
 )
 goto :menu_principal
