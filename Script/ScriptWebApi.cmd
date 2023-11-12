@@ -276,7 +276,7 @@ echo.>BaseEntity.cs
 cd ..
 mkdir Interfaces
 cd Interfaces
-echo.>IGenericRepository.cs
+echo.>IGeneric.cs
 echo.>IUnitOfWork.cs
 cd ..
 cd ..
@@ -300,8 +300,8 @@ dotnet new classlib -o Domain
 dotnet sln add Domain
 dotnet new classlib -o Persistence
 dotnet sln add Persistence
-dotnet new classlib -o Aplication
-dotnet sln add Aplication
+dotnet new classlib -o Application
+dotnet sln add Application
 cd API
 del WeatherForecast.cs
 mkdir Dtos
@@ -328,9 +328,9 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 7.0.1
 dotnet add package Microsoft.AspNetCore.Mvc.Versioning --version 5.1.0
 dotnet add package Microsoft.AspNetCore.OpenApi --version 7.0.11
 dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.10
-dotnet add reference ..\Aplication
+dotnet add reference ..\Application
 cd ..
-cd Aplication
+cd Application
 del Class1.cs
 mkdir Repository
 cd Repository
@@ -352,7 +352,7 @@ echo.>RefreshToken.cs
 cd ..
 mkdir Interfaces
 cd Interfaces
-echo.>IGenericRepository.cs
+echo.>IGeneric.cs
 echo.>IUnitOfWork.cs
 cd ..
 dotnet add package FluentValidation.AspNetCore --version 11.3.0
@@ -389,27 +389,29 @@ if %count% lss %num_entidades% (
     REM Crea la entidad en Core\Entities
     echo.>!ubicacionguardada!Core\Entities\!nombre_entidad!.cs
     REM Crea la interfaz en Core\Interfaces
-    echo.>!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs
+    echo.>!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs
     REM Crea el controlador en API\Controllers
     echo.>!ubicacionguardada!API\Controllers\!nombre_entidad!Controller.cs
     REM Crea el Dto en API\Dtos
     echo.>!ubicacionguardada!API\Dtos\!nombre_entidad!Dto.cs
     REM Crear Repository
     echo.>!ubicacionguardada!Infrastructure\Data\Repository\!nombre_entidad!Repository.cs
+
     REM Agrega codigo al archivo recien creado en Core\Interfaces\IEntidadRepositoy.cs
-    echo using System;>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.Collections.Generic;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.ComponentModel.DataAnnotations;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.Linq;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.Threading.Tasks;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using Core.Entities;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo. >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo namespace Core.Interfaces>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo { >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     public interface I!nombre_entidad!Repository:IGenericRepository^<!nombre_entidad!^> >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     {>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     }>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
-    echo } >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System;>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo using System.Collections.Generic;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo using System.ComponentModel.DataAnnotations;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo using System.Linq;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo using System.Threading.Tasks;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo using Core.Entities;>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo. >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo namespace Core.Interfaces>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo { >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo     public interface I!nombre_entidad!:IGeneric^<!nombre_entidad!^> >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo     {>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo     }>>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+    echo } >>"!ubicacionguardada!Core\Interfaces\I!nombre_entidad!.cs"
+
     REM Agrega codigo al archivo recien creado en Core\Entities\Entidad.cs
     echo using System;>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
     echo using System.Collections.Generic;>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
@@ -424,6 +426,7 @@ if %count% lss %num_entidades% (
     echo         // Aqui va tu codigo adicional o personalizado.>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
     echo     }>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
     echo }>>"!ubicacionguardada!Core\Entities\!nombre_entidad!.cs"
+
     REM Agrega Codigo al archivo recien creado API\Dtos
     echo using System; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
     echo using System.Collections.Generic; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
@@ -435,26 +438,28 @@ if %count% lss %num_entidades% (
     echo     { >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
     echo         // Aqui va tu codigo adicional o personalizado. >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
     echo     } >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+
     REM Agrega Codigo al archivo recien creado Repository
-    echo using System; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo using System.Collections.Generic; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo using System.Linq; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo using System.Threading.Tasks; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo using Core.Entities; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo using Core.Interfaces; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo using Infrastructure.Data; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo. >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo namespace Infrastructure.Repository >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo { >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo     public class !nombre_entidad!Repository : GenericRepository^<!nombre_entidad!^> , ICargoRepository >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo     { >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo         private readonly !proyecto!Context _context; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo         public !nombre_entidad!Repository(!proyecto!Context context) : base(context) >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo         { >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo             _context = context; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo         } >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo     } >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
-    echo } >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
+    echo using System; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo using System.Collections.Generic; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo using System.Linq; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo using System.Threading.Tasks; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo using Core.Entities; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo using Core.Interfaces; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo using Infrastructure.Data; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo. >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo namespace Infrastructure.Repository >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo { >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo     public class !nombre_entidad!Repository : GenericRepository^<!nombre_entidad!^> , I!nombre_entidad! >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!.cs"
+    echo     { >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo         private readonly !proyecto!Context _context; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo         public !nombre_entidad!Repository(!proyecto!Context context) : base(context) >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo         { >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo             _context = context; >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo         } >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo     } >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+    echo } >> "!ubicacionguardada!Infrastructure\Repository\!nombre_entidad!Repository.cs"
+
     set /a "count+=1"
     goto :loop
 )
@@ -474,27 +479,29 @@ if %count% lss %num_entidades% (
     REM Crea la entidad en Core\Entities
     echo.>!ubicacionguardada!Domain\Entities\!nombre_entidad!.cs
     REM Crea la interfaz en Core\Interfaces
-    echo.>!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs
+    echo.>!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs
     REM Crea el controlador en API\Controllers
     echo.>!ubicacionguardada!API\Controllers\!nombre_entidad!Controller.cs
     REM Crea el Dto en API\Dtos
     echo.>!ubicacionguardada!API\Dtos\!nombre_entidad!Dto.cs
     REM Crear Repository
     echo.>!ubicacionguardada!Application\Data\Repository\!nombre_entidad!Repository.cs
+
     REM Agrega codigo al archivo recien creado en Domain\Interfaces\IEntidadRepositoy.cs
-    echo using System;>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.Collections.Generic;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.ComponentModel.DataAnnotations;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.Linq;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using System.Threading.Tasks;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo using Domain.Entities;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo. >>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo namespace Domain.Interfaces>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo { >>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     public interface I!nombre_entidad!Repository:IGenericRepository^<!nombre_entidad!^> >>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     {>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo     }>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
-    echo } >>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!Repository.cs"
+    echo using System;>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo using System.Collections.Generic;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo using System.ComponentModel.DataAnnotations;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo using System.Linq;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo using System.Threading.Tasks;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo using Domain.Entities;>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo. >>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo namespace Domain.Interfaces>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo { >>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo     public interface I!nombre_entidad!:IGeneric^<!nombre_entidad!^> >>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo     {>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo     }>>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+    echo } >>"!ubicacionguardada!Domain\Interfaces\I!nombre_entidad!.cs"
+
     REM Agrega codigo al archivo recien creado en Domain\Entities\Entidad.cs
     echo using System;>>"!ubicacionguardada!Domain\Entities\!nombre_entidad!.cs"
     echo using System.Collections.Generic;>>"!ubicacionguardada!Domain\Entities\!nombre_entidad!.cs"
@@ -509,6 +516,7 @@ if %count% lss %num_entidades% (
     echo         // Aqui va tu codigo adicional o personalizado.>>"!ubicacionguardada!Domain\Entities\!nombre_entidad!.cs"
     echo     }>>"!ubicacionguardada!Domain\Entities\!nombre_entidad!.cs"
     echo }>>"!ubicacionguardada!Domain\Entities\!nombre_entidad!.cs"
+
     REM Agrega Codigo al archivo recien creado API\Dtos
     echo using System; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
     echo using System.Collections.Generic; >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
@@ -520,26 +528,27 @@ if %count% lss %num_entidades% (
     echo     { >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
     echo         // Aqui va tu codigo adicional o personalizado. >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
     echo     } >>"!ubicacionguardada!\API\Dtos\!nombre_entidad!Dto.cs"
+
     REM Agrega Codigo al archivo recien creado Repository
-    echo using System; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo using System.Collections.Generic; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo using System.Linq; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo using System.Threading.Tasks; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo using Core.Entities; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo using Core.Interfaces; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo using Persistence.Data; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo. >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo namespace Application.Repository >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo { >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo     public class !nombre_entidad!Repository : GenericRepository^<!nombre_entidad!^> , ICargoRepository >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo     { >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo         private readonly !proyecto!Context _context; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo         public !nombre_entidad!Repository(!proyecto!Context context) : base(context) >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo         { >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo             _context = context; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo         } >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo     } >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
-    echo } >> "!ubicacionguardada!Application\Repository\!nombre_entidad!.cs"
+    echo using System; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo using System.Collections.Generic; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo using System.Linq; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo using System.Threading.Tasks; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo using Core.Entities; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo using Core.Interfaces; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo using Persistence.Data; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo. >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo namespace Application.Repository >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo { >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo     public class !nombre_entidad!Repository : GenericRepository^<!nombre_entidad!^> , I!nombre_entidad!Repository >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo     { >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo         private readonly !proyecto!Context _context; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo         public !nombre_entidad!Repository(!proyecto!Context context) : base(context) >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo         { >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo             _context = context; >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo         } >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo     } >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
+    echo } >> "!ubicacionguardada!Application\Repository\!nombre_entidad!Repository.cs"
     set /a "count+=1"
     goto :loop
 )
@@ -615,6 +624,7 @@ echo         }>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
 echo     }>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
 echo }>> !ubicacionguardada!Persistence\Data\!proyecto!Context.cs
 goto :menu_insertar_codigo_cuatro_capas
+
 ::-------------------------------------------------------------------------------------------------------------
 
 :unit_of_work_tres_capas
@@ -654,7 +664,7 @@ echo                             .AllowAnyHeader() >> "!ubicacionguardada!API\Ex
 echo                 ); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
 echo             }); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
 echo         } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
-echo         public static void AddAplicationService(this IServiceCollection services) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
+echo         public static void AddApplicationServices(this IServiceCollection services) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
 echo         { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
 echo             services.AddScoped^<IUnitOfWork, UnitOfWork^>(); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
 echo         } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtension.cs"
@@ -690,87 +700,88 @@ goto :menu_insertar_codigo_tres_capas
 ::-------------------------------------------------------------------------------------------------------------
 
 :ApplicationServiceExtension_cuatro_capas
-echo using System.Text; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo using API.Helpers; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo using API.Services; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo using Application.UnitOfWork; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo using Domain.Entities; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo using Domain.Interfaces; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo using Microsoft.AspNetCore.Authentication.JwtBearer; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo using Microsoft.AspNetCore.Identity; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo using Microsoft.AspNetCore.Mvc; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo using Microsoft.IdentityModel.Tokens; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo. >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo namespace API.Extension; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo     public static class ApplicationServiceExtensions >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo     { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         public static void ConfigureCors(this IServiceCollection services) =^> >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             services.AddCors(options =^> >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                 options.AddPolicy("CorsPolicy", builder =^> >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     builder.AllowAnyOrigin()    //WithOrigins("https://domain.com") >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         .AllowAnyMethod()       //WithMethods("GET","POST") >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         .AllowAnyHeader());     //WithHeaders("accept","content-type") >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             }); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         public static void AddAplicacionServices(this IServiceCollection services) >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             services.AddScoped^<IPasswordHasher^<User^>, PasswordHasher^<User^>^>(); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             services.AddScoped^<IUserService, UserService^>(); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             services.AddScoped^<IUnitOfWork, UnitOfWork^>(); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         } >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         public static void AddJwt(this IServiceCollection services, IConfiguration configuration) >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             //Configuration from AppSettings >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             services.Configure^<JWT^>(configuration.GetSection("JWT")); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo. >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             //Adding Athentication - JWT >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             services.AddAuthentication(options =^> >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             }) >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                 .AddJwtBearer(o =^> >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                 { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     o.RequireHttpsMetadata = false; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     o.SaveToken = false; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     o.TokenValidationParameters = new TokenValidationParameters >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         ValidateIssuerSigningKey = true; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         ValidateIssuer = true; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         ValidateAudience = true; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         ValidateLifetime = true; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         ClockSkew = TimeSpan.Zero; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         ValidIssuer = configuration["JWT:Issuer"]; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         ValidAudience = configuration["JWT:Audience"]; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"])); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     }; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                 }); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         } >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         public static void AddValidationErrors(this IServiceCollection services) >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             services.Configure^<ApiBehaviorOptions^>(options =^> >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                 options.InvalidModelStateResponseFactory = actionContext =^> >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                 { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     var errors = actionContext.ModelState.Where(u =^> u.Value.Errors.Count > 0) >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                                                     .SelectMany(u =^> u.Value.Errors) >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                                                     .Select(u =^> u.ErrorMessage).ToArray(); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo. >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     var errorResponse = new ApiValidation() >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     { >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                         Errors = errors >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     }; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo. >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                     return new BadRequestObjectResult(errorResponse); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo                 }; >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo             }); >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo         } >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo     } >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
-echo } >> "!ubicacionguardada!Extension\ApplicationServiceExtensions.cs"
+echo using System.Text; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo using API.Helpers; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo using API.Services; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo using Application.UnitOfWork; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo using Domain.Entities; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo using Domain.Interfaces; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo using Microsoft.AspNetCore.Authentication.JwtBearer; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo using Microsoft.AspNetCore.Identity; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo using Microsoft.AspNetCore.Mvc; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo using Microsoft.IdentityModel.Tokens; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo. >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo namespace API.Extension; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo     public static class ApplicationServiceExtensions >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo     { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         public static void ConfigureCors(this IServiceCollection services) =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             services.AddCors(options =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                 options.AddPolicy("CorsPolicy", builder =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     builder.AllowAnyOrigin()    //WithOrigins("https://domain.com") >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         .AllowAnyMethod()       //WithMethods("GET","POST") >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         .AllowAnyHeader());     //WithHeaders("accept","content-type") >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             }); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         public static void AddAplicacionServices(this IServiceCollection services) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             services.AddScoped^<IPasswordHasher^<User^>, PasswordHasher^<User^>^>(); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             services.AddScoped^<IUserService, UserService^>(); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             services.AddScoped^<IUnitOfWork, UnitOfWork^>(); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         public static void AddJwt(this IServiceCollection services, IConfiguration configuration) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             //Configuration from AppSettings >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             services.Configure^<JWT^>(configuration.GetSection("JWT")); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo. >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             //Adding Athentication - JWT >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             services.AddAuthentication(options =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             }) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                 .AddJwtBearer(o =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                 { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     o.RequireHttpsMetadata = false; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     o.SaveToken = false; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     o.TokenValidationParameters = new TokenValidationParameters >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         ValidateIssuerSigningKey = true; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         ValidateIssuer = true; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         ValidateAudience = true; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         ValidateLifetime = true; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         ClockSkew = TimeSpan.Zero; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         ValidIssuer = configuration["JWT:Issuer"]; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         ValidAudience = configuration["JWT:Audience"]; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"])); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     }; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                 }); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         public static void AddValidationErrors(this IServiceCollection services) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             services.Configure^<ApiBehaviorOptions^>(options =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                 options.InvalidModelStateResponseFactory = actionContext =^> >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                 { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     var errors = actionContext.ModelState.Where(u =^> u.Value.Errors.Count > 0) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                                                     .SelectMany(u =^> u.Value.Errors) >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                                                     .Select(u =^> u.ErrorMessage).ToArray(); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo. >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     var errorResponse = new ApiValidation() >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     { >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                         Errors = errors >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     }; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo. >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                     return new BadRequestObjectResult(errorResponse); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo                 }; >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo             }); >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo         } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo     } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
+echo } >> "!ubicacionguardada!API\Extension\ApplicationServiceExtensions.cs"
 echo ApplicationServiceExtension creada
 pause
 goto :menu_insertar_codigo_tres_capas
+
 ::-------------------------------------------------------------------------------------------------------------
 
 :MappingProfiles_tres_capas
